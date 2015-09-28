@@ -93,3 +93,20 @@ Xd:> hadoop fs cat /xd/ticktockhdfs/ticktockhdfs-0.log
 https://github.com/spring-projects/spring-xd-samples/tree/master/hdfs-partitioning
 
 # Stream Data to GPDB using HAWQ and gpfdist
+1) On the HAWQ master (node phd3), add or edit /data/hawq/master/gpseg-1/pg_hba.conf to accept remote connections from vboxnet0 host (10.211.55.1).
+```
+host  all  gpadmin  10.211.55.1/32  trust
+```
+2) Login to phd3 as gpadmin.
+3) Verify psql.
+```
+[gpadmin@phd3 ~]$ psql
+psql (8.2.15)
+Type "help" for help.
+
+gpadmin=#
+```
+4) Use psql to create table 'xdsink'
+```
+gpadmin=# create table xdsink (pid integer, time timestamp, tid integer, sample real, sequence integer) distributed randomly;
+```
