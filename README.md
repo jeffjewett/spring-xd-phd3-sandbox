@@ -89,3 +89,4 @@ Quickly examine the file
 Xd:> hadoop fs cat /xd/ticktockhdfs/ticktockhdfs-0.log  
 2013-10-12 17:18:09 2013-10-12 17:18:10 2013-10-12 17:18:11 2013-10-12 17:18:12 2013-10-12 17:18:13 2013-10-12 17:18:14
 ```
+# Stream Data to GPDB Using Sprng XD and gpfdist
