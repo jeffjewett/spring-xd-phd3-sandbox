@@ -19,7 +19,6 @@ Installation has been verified verbatim on OSX.  No issues noted. However, sleep
 
 http://docs.spring.io/spring-xd/docs/current/reference/html/
 
-
 The only caveat with the Ambari/PHD3 installation is the Spring XD config -- you'll need to bind to namenode host adapter on eth1 (10.211.55.101), not the NAT adapter (Ambari only shows the NAT adapter on eth0). 
 
 ## Configure Spring XD
@@ -70,15 +69,15 @@ drwxr-xr-x   - hdfs      hdfs             0 2015-08-19 14:21 /user
 drwxrwxrwx   - spring-xd hdfs             0 2015-08-19 14:18 /xd
 ```
 # Stream Data to HDFS
-Recreate the the ticktock example (http://docs.spring.io/spring-xd/docs/current/reference/html/), but sink to hdfs.
+Recreate the the ticktock example (http://docs.spring.io/spring-xd/docs/current/reference/html/), but sink to hdfs
 ```
 Xd:> stream create --name ticktockhdfs --definition "time | hdfs" --deploy
 ```
-Leave it running a few seconds, then destroy the stream.
+Leave it running a few seconds, then destroy the stream
 ```
 Xd:> stream destroy --name ticktockhdfs
 ```
-View the small file that will have been generated in hdfs.
+View the small file that will have been generated in hdfs
 ```
 Xd:> hadoop fs ls /xd/ticktockhdfs  
 
@@ -97,14 +96,15 @@ https://github.com/spring-projects/spring-xd-samples/tree/master/hdfs-partitioni
 The following is generally based on the gfdist example shown here:
 https://github.com/spring-projects/spring-xd/blob/master/src/docs/asciidoc/Sinks.asciidoc#gpfdist
 
-The original load generator is found here:
-https://github.com/spring-projects/spring-xd-modules/tree/master/load-generator-gpfdist-source
-
-1) On the HAWQ master (node phd3), add or edit /data/hawq/master/gpseg-1/pg_hba.conf to accept remote connections from vboxnet0 host (10.211.55.1).
+1) On the HAWQ master (node phd3), add or edit /data/hawq/master/gpseg-1/pg_hba.conf to accept remote connections from vboxnet0 host (10.211.55.1)
 ```
 host  all  gpadmin  10.211.55.1/32  trust
 ```
-2) Login to phd3 as gpadmin.
+2) Login to phd3 as gpadmin
+3) Reload the config
+```
+[gpadmin@phd3 ~]$ gpstop –u
+```
 3) Verify psql.
 ```
 [gpadmin@phd3 ~]$ psql
@@ -116,4 +116,29 @@ gpadmin=#
 4) Use psql to create table 'xdsink'
 ```
 gpadmin=# create table xdsink (pid integer, time timestamp, tid integer, sample real, sequence integer) distributed randomly;
+```
+5) Build the gpfdist load generator in this repository.
+###### Building with Maven
+```
+$ mvn package
+```
+6) Load the module
+```
+xd:>module upload --type source --name load-generator-gpfdist --file /<path-to-module>/target/load-generator-gpfdist-source-1.0.0.BUILD-SNAPSHOT.jar
+```
+Verify the module is loaded correctly
+```
+xd:>module info source:load-generator-gpfdist
+Information about source module 'load-generator-gpfdist':
+
+  Option Name      Description                                                  Default    Type
+  ---------------  -----------------------------------------------------------  ---------  --------
+  sleepCount       the record count after sleep                                 0          int
+  recordType       the type of records in message to send, [counter,timestamp]  timestamp  String
+  sleepTime        the time in millis to sleep                                  0          long
+  producers        the number of producers                                      1          int
+  recordDelimiter  the delimiter of records in message to send                  \t         String
+  messageCount     the number of messages to send per producer                  100        int
+  recordCount      the count of records in message to send                      1          int
+  outputType       how this module should emit messages it produces             <none>     MimeType
 ```
