@@ -14,7 +14,9 @@ vagrant       vagrant
 gpadmin       gpadmin
 ```
 Installation has been verified verbatim on OSX.  No issues noted. However, sleep tends to bounce HBase -- maintenance mode is therefore recommended.
-
+```
+The Ambari interface is found here: http://10.211.55.100:8080 (username: admin, password: admin)
+```
 ## Install Spring XD with Homebrew
 
 http://docs.spring.io/spring-xd/docs/current/reference/html/
@@ -141,4 +143,42 @@ Information about source module 'load-generator-gpfdist':
   messageCount     the number of messages to send per producer                  100        int
   recordCount      the count of records in message to send                      1          int
   outputType       how this module should emit messages it produces             <none>     MimeType
+```
+7) Create and deploy a stream for the source module "load-generator-gpfdist"
+```
+xd:>stream create --name gpfdiststream --definition "load-generator-gpfdist --messageCount=20 --producers=5 --recordType=counter  | gpfdist --dbHost=10.211.55.103 --table=xdsink --batchTimeout=5 --batchCount=10 --batchPeriod=0 --flushCount=200 --flushTime=2 --rateInterval=1000000" --deploy
+```
+Verify i/o in the terminal the Spring XD service is running in.
+
+8) Run for a few seconds, then undeploy
+```
+xd:> stream undeploy --name gpfdiststream
+```
+9) Verify results exist in table "xdsink" with psql
+```
+gpadmin=# select * from xdsink;
+
+ pid |          time           | tid |   sample   | sequence 
+-----+-------------------------+-----+------------+----------
+   4 | 2015-09-16 19:21:05.516 | 149 |   0.414842 |        0
+   2 | 2015-09-16 19:21:05.515 | 147 |   0.963706 |        0
+   1 | 2015-09-16 19:21:05.515 | 146 |   0.893071 |        0
+   3 | 2015-09-16 19:21:05.517 | 148 |   0.730467 |        1
+   2 | 2015-09-16 19:21:05.517 | 147 |   0.294622 |        1
+   1 | 2015-09-16 19:21:05.517 | 146 |  0.0944971 |        1
+   0 | 2015-09-16 19:21:05.517 | 145 |   0.665101 |        1
+   2 | 2015-09-16 19:21:05.517 | 147 |   0.142871 |        2
+   3 | 2015-09-16 19:21:05.517 | 148 |   0.929922 |        2
+   0 | 2015-09-16 19:21:05.517 | 145 |  0.0841604 |        2
+   1 | 2015-09-16 19:21:05.517 | 146 |   0.521306 |        2
+   2 | 2015-09-16 19:21:05.517 | 147 |   0.382493 |        3
+   3 | 2015-09-16 19:21:05.517 | 148 |   0.504931 |        3
+   2 | 2015-09-16 19:21:05.517 | 147 |   0.693706 |        4
+   1 | 2015-09-16 19:21:05.517 | 146 |   0.855409 |        3
+   3 | 2015-09-16 19:21:05.517 | 148 |   0.166996 |        4
+   0 | 2015-09-16 19:21:05.517 | 145 |   0.173563 |        3
+   2 | 2015-09-16 19:21:05.517 | 147 |   0.173133 |        5
+   3 | 2015-09-16 19:21:05.517 | 148 |   0.835099 |        5
+   2 | 2015-09-16 19:21:05.517 | 147 |   0.862009 |        6
+   0 | 2015-09-16 19:21:05.517 | 145 |   0.138441 |        4
 ```
