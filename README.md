@@ -10,9 +10,9 @@ http://blog.tzolov.net/2015/06/leverage-vagrant-and-ambari-blueprint.html
 Installation has been verified verbatim on OSX.  No issues noted. However, sleep tends to bounce HBase -- maintenance mode is therefore recommended.
 
 ## Install Spring XD with Homebrew
-```
+
 http://docs.spring.io/spring-xd/docs/current/reference/html/
-```
+
 
 The only caveat with the Ambari/PHD3 installation is the Spring XD config -- you'll need to bind to namenode host adapter on eth1 (10.211.55.101), not the NAT adapter (Ambari only shows the NAT adapter on eth0). 
 
@@ -62,4 +62,24 @@ drwxr-xr-x   - hdfs      hdfs             0 2015-08-19 14:15 /system
 drwxrwxrwx   - hdfs      hdfs             0 2015-08-19 14:20 /tmp
 drwxr-xr-x   - hdfs      hdfs             0 2015-08-19 14:21 /user
 drwxrwxrwx   - spring-xd hdfs             0 2015-08-19 14:18 /xd
+```
+# Stream Data to HDFS
+Recreate the the ticktock example (http://docs.spring.io/spring-xd/docs/current/reference/html/), but sink to hdfs.
+```
+Xd:> stream create --name ticktockhdfs --definition "time | hdfs" --deploy
+```
+Leave it running a few seconds, then destroy the stream.
+```
+Xd:> stream destroy --name ticktockhdfs
+```
+View the small file that will have been generated in hdfs.
+```
+Xd:> hadoop fs ls /xd/ticktockhdfs  
+
+Found 1 items -rwxr-xr-x   3 root hdfs        420 2013-10-12 17:18 /xd/ticktockhdfs/ticktockhdfs-0.log
+```
+Quickly examine the file
+```
+Xd:> hadoop fs cat /xd/ticktockhdfs/ticktockhdfs-0.log  
+2013-10-12 17:18:09 2013-10-12 17:18:10 2013-10-12 17:18:11 2013-10-12 17:18:12 2013-10-12 17:18:13 2013-10-12 17:18:14
 ```
