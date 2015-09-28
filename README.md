@@ -34,15 +34,15 @@ spring:
   fsUri: hdfs://10.211.55.101:8020
 ```
 
-3) Spin up the XD service with 
+3) Spin up the Spring XD service
 ```
 xd/bin> ./xd-singlenode --hadoopDistro phd30
 ```
-4) Spawn the XD shell with
+4) Spawn the Spring XD shell
 ```
 xd/bin> ./xd-shell --hadoopDistro phd30
 ```
-5) Configure the hdfs namenode in the shell
+5) Configure the hdfs namenode in the Spring XD shell
 ```
 xd:> hadoop config fs --namenode hdfs://10.211.55.101:8020
 ```
