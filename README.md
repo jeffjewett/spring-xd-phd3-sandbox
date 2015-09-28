@@ -1,5 +1,5 @@
 # spring-xd-phd3-sandbox
-Demo sandbox with with an Ambari vm and PHD 3 vm cluster. Integrates Spring XD hdfs and GPDB. Also integrates with GemFire, Redis, etc.
+Demo sandbox with with an Ambari vm and PHD 3 vm cluster. Integrates Spring XD hdfs and GPDB. Also integrates with GemFire, Redis, etc. Instructions shown are on OSX using Homwbrew where possible.
 
 ## Installation
 
@@ -7,11 +7,16 @@ Installation instructions are here:
 
 http://blog.tzolov.net/2015/06/leverage-vagrant-and-ambari-blueprint.html
 
-Installation has been verified verbatim on macbook pro.  No issues noted. However, sleep tends to bounce HBase -- maintenance mode is therefore recommended.
+Installation has been verified verbatim on OSX.  No issues noted. However, sleep tends to bounce HBase -- maintenance mode is therefore recommended.
 
-The only caveat here is the XD config: you'll need to bind to namenode host adapter on eth1 (10.211.55.101), not the NAT adapter (Ambari only shows the NAT adapter on eth0). 
+## Install Spring XD with Homebree
+```
+http://docs.spring.io/spring-xd/docs/current/reference/html/
+```
 
-## Configure XD as follows:
+The only caveat with the Ambari/PHD3 installation is the Spring XD config -- you'll need to bind to namenode host adapter on eth1 (10.211.55.101), not the NAT adapter (Ambari only shows the NAT adapter on eth0). 
+
+## Configure Spring XD as follows:
 
 1) Add the following to
 /usr/local/Cellar/springxd/1.2.0.RELEASE/libexec/xd/config/hadoop.properties:
