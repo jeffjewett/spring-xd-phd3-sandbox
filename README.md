@@ -15,17 +15,19 @@ The only caveat here is the XD config: you'll need to bind to namenode host adap
 
 1) Add the following to
 /usr/local/Cellar/springxd/1.2.0.RELEASE/libexec/xd/config/hadoop.properties:
-
+```
 fs.default.name=hdfs://10.211.55.101:8020 
-
+```
 2) Add or uncomment the following to
 /usr/local/Cellar/springxd/1.2.0.RELEASE/libexec/xd/config/servers.yml:
 
+```
 ---
-### Hadoop properties
+# Hadoop properties
 spring:
   hadoop:
   fsUri: hdfs://10.211.55.101:8020
+```
 
 3) Spin up the XD service with 
 
