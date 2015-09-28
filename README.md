@@ -93,6 +93,10 @@ Xd:> hadoop fs cat /xd/ticktockhdfs/ticktockhdfs-0.log
 https://github.com/spring-projects/spring-xd-samples/tree/master/hdfs-partitioning
 
 # Stream Data to GPDB using HAWQ and gpfdist
+
+The following is generally based on the gfdist example shown here:
+https://github.com/spring-projects/spring-xd/blob/master/src/docs/asciidoc/Sinks.asciidoc#gpfdist
+
 1) On the HAWQ master (node phd3), add or edit /data/hawq/master/gpseg-1/pg_hba.conf to accept remote connections from vboxnet0 host (10.211.55.1).
 ```
 host  all  gpadmin  10.211.55.1/32  trust
