@@ -6,7 +6,13 @@ Demo sandbox with with an Ambari vm and PHD 3 vm cluster. Integrates Spring XD h
 Installation instructions are here:
 
 http://blog.tzolov.net/2015/06/leverage-vagrant-and-ambari-blueprint.html
-
+```
+User          Password
+-----------------------
+root          vagrant
+vagrant       vagrant
+gpadmin       gpadmin
+```
 Installation has been verified verbatim on OSX.  No issues noted. However, sleep tends to bounce HBase -- maintenance mode is therefore recommended.
 
 ## Install Spring XD with Homebrew
