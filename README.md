@@ -107,7 +107,7 @@ host  all  gpadmin  10.211.55.1/32  trust
 ```
 [gpadmin@phd3 ~]$ gpstop –u
 ```
-3) Verify psql.
+3) Verify psql
 ```
 [gpadmin@phd3 ~]$ psql
 psql (8.2.15)
@@ -119,7 +119,7 @@ gpadmin=#
 ```
 gpadmin=# create table xdsink (pid integer, time timestamp, tid integer, sample real, sequence integer) distributed randomly;
 ```
-5) Build the gpfdist load generator in this repository.
+5) Build the gpfdist load generator in this repository
 ###### Building with Maven
 ```
 $ mvn package
