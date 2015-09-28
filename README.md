@@ -1,5 +1,5 @@
 # spring-xd-phd3-sandbox
-Demo sandbox with with an Ambari vm and PHD 3 vm cluster. Integrates Spring XD hdfs and GPDB. Also integrates with GemFire, Redis, etc. Instructions shown are on OSX using Homwbrew where possible.
+Demo sandbox with with an Ambari management vm and PHD3 with 3 data nodes (single node per vm). Integrates Spring XD hdfs and GPDB in this example. Also integrates with GemFire, Redis, etc. Instructions shown are on OSX using Homwbrew where possible.
 
 ## Installation
 
