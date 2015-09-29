@@ -102,7 +102,7 @@ https://github.com/spring-projects/spring-xd/blob/master/src/docs/asciidoc/Sinks
 ```
 host  all  gpadmin  10.211.55.1/32  trust
 ```
-2) Login to phd3 as gpadmin
+2) Login to phd3 (the HAWQ master) as gpadmin
 
 3) Reload the config
 ```
