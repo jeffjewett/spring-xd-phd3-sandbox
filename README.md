@@ -17,7 +17,7 @@ Installation has been verified verbatim on OSX.  No issues noted. However, sleep
 ```
 The Ambari interface is found here: http://10.211.55.100:8080 (username: admin, password: admin)
 ```
-## Install Spring XD with Homebrew
+## Install Spring XD on OSX Host with Homebrew
 
 http://docs.spring.io/spring-xd/docs/current/reference/html/
 
