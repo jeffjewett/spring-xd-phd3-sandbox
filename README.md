@@ -103,11 +103,12 @@ https://github.com/spring-projects/spring-xd/blob/master/src/docs/asciidoc/Sinks
 host  all  gpadmin  10.211.55.1/32  trust
 ```
 2) Login to phd3 as gpadmin
+
 3) Reload the config
 ```
 [gpadmin@phd3 ~]$ gpstop –u
 ```
-3) Verify psql
+4) Verify psql
 ```
 [gpadmin@phd3 ~]$ psql
 psql (8.2.15)
@@ -115,16 +116,16 @@ Type "help" for help.
 
 gpadmin=#
 ```
-4) Use psql to create table 'xdsink'
+5) Use psql to create table 'xdsink'
 ```
 gpadmin=# create table xdsink (pid integer, time timestamp, tid integer, sample real, sequence integer) distributed randomly;
 ```
-5) Build the gpfdist load generator in this repository
+6) Build the gpfdist load generator in this repository
 ###### Building with Maven
 ```
 $ mvn package
 ```
-6) Load the module
+7) Load the module
 ```
 xd:>module upload --type source --name load-generator-gpfdist --file /<path-to-module>/target/load-generator-gpfdist-source-1.0.0.BUILD-SNAPSHOT.jar
 ```
@@ -144,17 +145,17 @@ Information about source module 'load-generator-gpfdist':
   recordCount      the count of records in message to send                      1          int
   outputType       how this module should emit messages it produces             <none>     MimeType
 ```
-7) Create and deploy a stream for the source module "load-generator-gpfdist"
+8) Create and deploy a stream for the source module "load-generator-gpfdist"
 ```
 xd:>stream create --name gpfdiststream --definition "load-generator-gpfdist --messageCount=20 --producers=5 --recordType=counter  | gpfdist --dbHost=10.211.55.103 --table=xdsink --batchTimeout=5 --batchCount=10 --batchPeriod=0 --flushCount=200 --flushTime=2 --rateInterval=1000000" --deploy
 ```
 Verify i/o in the terminal the Spring XD service is running in.
 
-8) Run for a few seconds, then undeploy
+9) Run for a few seconds, then undeploy
 ```
 xd:> stream undeploy --name gpfdiststream
 ```
-9) Verify results exist in table "xdsink" with psql
+10) Verify results exist in table "xdsink" with psql
 ```
 gpadmin=# select * from xdsink;
 
