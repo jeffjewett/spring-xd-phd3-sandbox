@@ -23,7 +23,7 @@ http://docs.spring.io/spring-xd/docs/current/reference/html/
 
 The only caveat with the Ambari/PHD3 installation is the Spring XD config -- you'll need to bind to namenode host adapter on eth1 (10.211.55.101), not the NAT adapter (Ambari only shows the NAT adapter on eth0). 
 
-## Configure Spring XD
+## Configure Spring XD on OSX Host
 
 1) Add the following to
 /usr/local/Cellar/springxd/1.2.0.RELEASE/libexec/xd/config/hadoop.properties:
